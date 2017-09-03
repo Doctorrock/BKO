@@ -33,10 +33,10 @@ namespace BKOXUnitTest
             shufflerMock.Setup(x => x.ShuffleCards()).Returns(deck);
 
             Board board = new Board(shufflerMock.Object);
-            var east = new Hand(clubs,board);
-            var west = new Hand(diamonds,board);
-            var south = new Hand(hearts, board);
-            var north = new Hand(spades, board);
+            var east = new Hand(clubs);
+            var west = new Hand(diamonds);
+            var south = new Hand(hearts);
+            var north = new Hand(spades);
 
             var hands = new List<Hand>();
             hands.Add(east);
