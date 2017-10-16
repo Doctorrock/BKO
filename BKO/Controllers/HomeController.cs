@@ -12,9 +12,9 @@ namespace BKO.Controllers
 {
     public class HomeController : Controller
     {
-        private IBoard _board;
+        private Board _board;
 
-        public HomeController(IBoard board)
+        public HomeController(Board board)
         {
             _board = board;
         }
@@ -28,7 +28,6 @@ namespace BKO.Controllers
         {
             ViewData["RequestId"] = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
 
-            _board.CreateHands();
             return View();
         }
     }

@@ -4,17 +4,16 @@ using BKO.Interfaces;
 
 namespace BKO.Models
 {
-    public class Hand : IHand
+    public class Hand 
     {
-        public IEnumerable<Card> Cards => cards;
-        private List<Card> cards;
-        private List<Card> usedCards;
-        private Board board;
+        public IEnumerable<Card> Cards => _cards;
+        private List<Card> _cards;
+        private List<Card> _usedCards;
 
         public Hand(IEnumerable<Card> cards)
         {
-            this.cards = cards.ToList();
-            this.usedCards = new List<Card>();
+            _cards = cards.ToList();
+            _usedCards = new List<Card>();
         }
 
 

@@ -25,8 +25,6 @@ namespace BKO
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IShuffler, Shuffler>();
-            services.AddScoped<IHand, Hand>();
-            services.AddScoped<IBoard, Board>();
             services.AddMvc();
 
         }

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BKO.Interfaces;
 
 namespace BKO.Models
 {
-    public class Player
+    public class Player : IPlayer
     {
         public Place Place { get; private set; }
         public Hand Hand { get; private set; }

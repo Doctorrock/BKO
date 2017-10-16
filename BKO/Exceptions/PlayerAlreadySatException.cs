@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BKO.Models;
 
-namespace BKO.Interfaces
+namespace BKO.Exceptions
 {
-    public interface IBoard
+    public class PlayerAlreadySatException : Exception
     {
     }
 }
