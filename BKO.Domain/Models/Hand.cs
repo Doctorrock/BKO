@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BKO.Domain.Interfaces;
 
 namespace BKO.Domain.Models
 {
-    public class Hand 
+    public class Hand : IHand
     {
-        public IEnumerable<Card> Cards => _cards;
+        public IList<Card> Cards => _cards;
         private List<Card> _cards;
         private List<Card> _usedCards;
 

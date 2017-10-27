@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Domain</AssemblyName>
+    <RootNamespace>BKO.Domain</RootNamespace>
   </PropertyGroup>
 
 </Project>

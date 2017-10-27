@@ -1,24 +1,22 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using BKO.Domain.Enums;
+using BKO.Domain.Interfaces;
 
 namespace BKO.Domain.Models
 {
-    public class Trick
+    public class Trick : ITrick
     {
-        private Dictionary<PlayerPosition, Card> _trick;
 
-        public bool AllCardsIn => _trick.Count == 4;
+        public Dictionary<PlayerPosition, Card> TrickCards { get; }
+
+        public bool AllCardsIn => TrickCards.Count == 4;
+
+        public PlayerPosition Winner { get; set; }
 
         public Trick()
         {
-            _trick = new Dictionary<PlayerPosition, Card>();
+            TrickCards = new Dictionary<PlayerPosition, Card>();
         }
-
-        public void AddCard(PlayerPosition positon, Card card)
-        {
-            _trick.Add(positon, card);
-        }
-
-
     }
 }

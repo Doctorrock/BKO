@@ -15,10 +15,11 @@ namespace BKO.Domain.Models
 
     public enum CardColor
     {
-        Clubs,
-        Diamonds,
-        Hearts,
-        Spades
+        Clubs = 0,
+        Diamonds = 20,
+        Hearts = 40,
+        Spades = 60,
+        NoTrump
     }
 
     public enum CardNumber

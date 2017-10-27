@@ -25,7 +25,7 @@ namespace BKOXUnitTest
 
             var gruped = shuffledCards.GroupBy(x => x.Number.ToString() + x.Color.ToString());
 
-            Assert.False(gruped.Any(x => x.Count() > 1));
+            Assert.DoesNotContain(gruped,x => x.Count() > 1);
         }
 
 
