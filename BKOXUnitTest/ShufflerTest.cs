@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using BKO.Models;
+using BKO.Domain.Models;
 using Xunit;
 namespace BKOXUnitTest
 {

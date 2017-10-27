@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BKO.Enums;
-using BKO.Exceptions;
-using BKO.Interfaces;
-using BKO.Models;
+using BKO.Domain.Enums;
+using BKO.Domain.Exceptions;
+using BKO.Domain.Interfaces;
+using BKO.Domain.Models;
 using Moq;
 using Xunit;
 using Xunit.Sdk;

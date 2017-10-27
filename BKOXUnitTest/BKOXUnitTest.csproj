@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BKO\BKO.csproj" />
+    <ProjectReference Include="..\BKO.Domain\BKO.Domain.csproj" />
   </ItemGroup>
 
 </Project>

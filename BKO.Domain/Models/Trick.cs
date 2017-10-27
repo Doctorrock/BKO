@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BKO.Enums;
-using Microsoft.Extensions.FileSystemGlobbing.Internal.PathSegments;
+﻿using System.Collections.Generic;
+using BKO.Domain.Enums;
 
-namespace BKO.Models
+namespace BKO.Domain.Models
 {
     public class Trick
     {
@@ -20,7 +16,7 @@ namespace BKO.Models
 
         public void AddCard(PlayerPosition positon, Card card)
         {
-            _trick.TryAdd(positon, card);
+            _trick.Add(positon, card);
         }
 
 

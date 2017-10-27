@@ -4,8 +4,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using BKO.Interfaces;
-using BKO.Models;
+using BKO.Domain.Interfaces;
+using BKO.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BKO.Controllers

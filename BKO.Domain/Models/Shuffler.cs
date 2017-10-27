@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BKO.Interfaces;
+using BKO.Domain.Interfaces;
 
-namespace BKO.Models
+namespace BKO.Domain.Models
 {
     public class Shuffler : IShuffler
     {

@@ -1,4 +1,4 @@
-﻿namespace BKO.Interfaces
+﻿namespace BKO.Domain.Interfaces
 {
     public interface IPlayer
     {

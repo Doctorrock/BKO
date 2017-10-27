@@ -1,10 +1,9 @@
-﻿
-using System.Collections.Generic;
-using BKO.Enums;
-using BKO.Exceptions;
-using BKO.Interfaces;
+﻿using System.Collections.Generic;
+using BKO.Domain.Enums;
+using BKO.Domain.Exceptions;
+using BKO.Domain.Interfaces;
 
-namespace BKO.Models
+namespace BKO.Domain.Models
 {
     public class GameManager
     {
@@ -51,11 +50,13 @@ namespace BKO.Models
             {
                 throw new PlayerAlreadySatException();
             }
-
-            if (!_players.TryAdd(position, player))
+            
+            if (_players.ContainsKey(position))
             {
               throw  new PlaceAlreadyTakenException();
             }
+
+            _players.Add(position, player);
         }
 
     }

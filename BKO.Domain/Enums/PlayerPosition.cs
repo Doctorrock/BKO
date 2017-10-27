@@ -1,4 +1,4 @@
-namespace BKO.Enums
+namespace BKO.Domain.Enums
 {
     public enum PlayerPosition
     {

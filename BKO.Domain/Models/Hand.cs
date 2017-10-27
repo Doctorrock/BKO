@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BKO.Interfaces;
 
-namespace BKO.Models
+namespace BKO.Domain.Models
 {
     public class Hand 
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace BKO.Models
+namespace BKO.Domain.Exceptions
 {
     [Serializable]
     internal class TrickContainsThisCardException : Exception

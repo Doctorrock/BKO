@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BKO.Interfaces;
+﻿using BKO.Domain.Interfaces;
 
-namespace BKO.Models
+namespace BKO.Domain.Models
 {
     public class Player : IPlayer
     {

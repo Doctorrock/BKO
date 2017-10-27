@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BKO.Interfaces;
-using BKO.Models;
 using Moq;
 using Xunit;
 

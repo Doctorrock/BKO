@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using BKO.Enums;
-using BKO.Models;
+using BKO.Domain.Enums;
+using BKO.Domain.Models;
 using Xunit;
 
 namespace BKOXUnitTest
@@ -19,7 +19,6 @@ namespace BKOXUnitTest
             trick.AddCard(PlayerPosition.North, new Card(CardColor.Clubs, CardNumber.Jack));
 
             Assert.True(trick.AllCardsIn);
-
         }
     }
 }

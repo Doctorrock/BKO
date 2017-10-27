@@ -1,7 +1,5 @@
 ﻿
-using Microsoft.AspNetCore.Mvc;
-
-namespace BKO.Models
+namespace BKO.Domain.Models
 {
     public struct Card
     {
