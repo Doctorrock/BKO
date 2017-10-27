@@ -7,5 +7,6 @@ namespace BKO.Domain.Interfaces
     public interface ITrick
     {
         Dictionary<PlayerPosition, Card> TrickCards { get; }
+        PlayerPosition Winner { get; set; }
     }
 }

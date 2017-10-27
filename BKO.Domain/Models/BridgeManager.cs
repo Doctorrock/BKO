@@ -11,7 +11,6 @@ namespace BKO.Domain.Models
         private readonly IAuctionManager _auctionManager;
         private GameManager _gameManager;
         private const int OnHand = 13;
-        private const int TricksAmount = 13;
 
         private readonly Dictionary<PlayerPosition,IPlayer> _players;
 

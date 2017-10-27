@@ -15,6 +15,12 @@ namespace BKO.Domain.Models
         public Trick CurentTrick { private set; get; }
         private int _curentTrickNumber;
         private CardColor _trump;
+        private IPlayerGuard _playerGuard;
+
+        public GameManager(IPlayerGuard guard)
+        {
+            _playerGuard = guard;
+        }
 
         public GameManager(Dictionary<PlayerPosition, Hand> hands, CardColor trump)
         {
@@ -31,27 +37,30 @@ namespace BKO.Domain.Models
             _curentTrickNumber = 0;
         }
 
-        public bool AddCardToTrick(PlayerPosition position, Card card)
+        public void AddCardToTrick(PlayerPosition position, Card card)
         {
-            if (_hands[position].Cards.Contains(card))
+            // TODO needs to be tested, something strange here
+            if (_playerGuard.CurrentPlayer != position)
             {
-                CurentTrick.TrickCards.Add(position, card);
-                _hands[position].Cards.Remove(card);
+                throw new WrongPlayerException();
             }
-            else
+
+            if (!_hands[position].Cards.Contains(card))
             {
                 throw new CardNotInHandException();
             }
 
+            CurentTrick.TrickCards.Add(position, card);
+            _hands[position].Cards.Remove(card);
+            _playerGuard.FinishMove();
+
             if (CurentTrick.AllCardsIn)
             {
-                CalculateWinner(CurentTrick);
+                CurentTrick.Winner = CalculateWinner(CurentTrick);
+                _playerGuard.SetStartingPlayer(CurentTrick.Winner);
                 _curentTrickNumber++;
                 CurentTrick = _tricks[_curentTrickNumber];
-                return true;
             }
-
-            return false;
         }
 
         public PlayerPosition CalculateWinner(ITrick trick)
