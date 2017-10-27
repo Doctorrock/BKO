@@ -13,6 +13,7 @@ namespace BKO.Models
         private const int OnHand = 13;
 
         private readonly Dictionary<PlayerPosition,IPlayer> _players;
+        private Dictionary<PlayerPosition, Hand> _hands;
 
         public bool TableFull => _players.Count == 4;
 
@@ -40,7 +41,7 @@ namespace BKO.Models
                     curentPostion++;
                 }
             }
-
+            _hands = hands;
             return hands;
         }
 
