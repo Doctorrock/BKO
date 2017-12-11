@@ -29,12 +29,10 @@ namespace BKO.Domain.Models
             {
                 for (var color = 0; color < 4; ++color)
                 {
-                     deck.Add(new Card((CardColor)color,(CardNumber)number));
+                    deck.Add(new Card((CardColor) color, (CardNumber) number));
                 }
             }
             return deck;
         }
-
-        
     }
 }

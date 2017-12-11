@@ -6,18 +6,15 @@ namespace BKO.Domain.Models
 {
     public class Hand : IHand
     {
-        public IList<Card> Cards => _cards;
-        private List<Card> _cards;
-        private List<Card> _usedCards;
+        private readonly List<Card> cards;
+        private List<Card> usedCards;
 
         public Hand(IEnumerable<Card> cards)
         {
-            _cards = cards.ToList();
-            _usedCards = new List<Card>();
+            this.cards = cards.ToList();
+            this.usedCards = new List<Card>();
         }
 
-
-
-
+        public IList<Card> Cards => this.cards;
     }
 }

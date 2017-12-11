@@ -4,19 +4,18 @@ namespace BKO.Domain.Models
 {
     public class Player : IPlayer
     {
-        public Place Place { get; private set; }
-        public Hand Hand { get; private set; }
         private Board board;
-        
+
 
         public Player(Hand hand, Board board, Place place)
         {
             this.board = board;
-            this.Hand = hand;
-            this.Place = place;
+            Hand = hand;
+            Place = place;
         }
 
-
+        public Place Place { get; }
+        public Hand Hand { get; }
     }
 
     public enum Place

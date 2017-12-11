@@ -1,65 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using BKO.Domain.Enums;
-using BKO.Domain.Interfaces;
 using BKO.Domain.Exceptions;
+using BKO.Domain.Interfaces;
 
 namespace BKO.Domain.Models
 {
     public class GameManager
     {
-        private Dictionary<PlayerPosition, Hand> _hands;
-        private List<Trick> _tricks;
-        public Trick CurentTrick { private set; get; }
-        private int _curentTrickNumber;
-        private CardColor _trump;
-        private IPlayerGuard _playerGuard;
+        private readonly Dictionary<PlayerPosition, Hand> hands;
+        private readonly IPlayerGuard playerGuard;
+        private readonly List<Trick> tricks;
+        private readonly CardColor trump;
+        private int curentTrickNumber;
 
         public GameManager(IPlayerGuard guard)
         {
-            _playerGuard = guard;
+            this.playerGuard = guard;
         }
 
         public GameManager(Dictionary<PlayerPosition, Hand> hands, CardColor trump)
         {
-            _hands = hands;
-            _trump = trump;
+            this.hands = hands;
+            this.trump = trump;
 
-            _tricks = new List<Trick>();
+            this.tricks = new List<Trick>();
 
-            for (int i = 0; i < 12; i++)
+            for (var i = 0; i < 12; i++)
             {
-                _tricks.Add(new Trick());
+                this.tricks.Add(new Trick());
             }
-            CurentTrick = _tricks.First();
-            _curentTrickNumber = 0;
+            CurentTrick = this.tricks.First();
+            this.curentTrickNumber = 0;
         }
+
+        public Trick CurentTrick { private set; get; }
 
         public void AddCardToTrick(PlayerPosition position, Card card)
         {
             // TODO needs to be tested, something strange here
-            if (_playerGuard.CurrentPlayer != position)
+            if (this.playerGuard.CurrentPlayer != position)
             {
                 throw new WrongPlayerException();
             }
 
-            if (!_hands[position].Cards.Contains(card))
+            if (!this.hands[position].Cards.Contains(card))
             {
                 throw new CardNotInHandException();
             }
 
             CurentTrick.TrickCards.Add(position, card);
-            _hands[position].Cards.Remove(card);
-            _playerGuard.FinishMove();
+            this.hands[position].Cards.Remove(card);
+            this.playerGuard.FinishMove();
 
             if (CurentTrick.AllCardsIn)
             {
                 CurentTrick.Winner = CalculateWinner(CurentTrick);
-                _playerGuard.SetStartingPlayer(CurentTrick.Winner);
-                _curentTrickNumber++;
-                CurentTrick = _tricks[_curentTrickNumber];
+                this.playerGuard.SetStartingPlayer(CurentTrick.Winner);
+                this.curentTrickNumber++;
+                CurentTrick = this.tricks[this.curentTrickNumber];
             }
         }
 
@@ -70,8 +69,8 @@ namespace BKO.Domain.Models
             var trumpValue = 100;
             foreach (var player in trick.TrickCards)
             {
-                var playersPoints = (int)player.Value.Color + (int)player.Value.Number;
-                if (player.Value.Color == _trump)
+                var playersPoints = (int) player.Value.Color + (int) player.Value.Number;
+                if (player.Value.Color == this.trump)
                 {
                     playersPoints += trumpValue;
                 }
@@ -87,8 +86,7 @@ namespace BKO.Domain.Models
 
         public bool CanPlayerAddCard(PlayerPosition position, Card card)
         {
-            return _trump == card.Color || (_hands[position].Cards.All(x => x.Color != _trump));
+            return this.trump == card.Color || this.hands[position].Cards.All(x => x.Color != this.trump);
         }
-
     }
 }

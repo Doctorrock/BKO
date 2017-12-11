@@ -7,25 +7,25 @@ namespace BKO.Domain.Models
 {
     public class BridgeManager
     {
-        private readonly IShuffler _shuffler;
-        private readonly IAuctionManager _auctionManager;
-        private GameManager _gameManager;
         private const int OnHand = 13;
+        private readonly IAuctionManager auctionManager;
 
-        private readonly Dictionary<PlayerPosition,IPlayer> _players;
-
-        public bool TableFull => _players.Count == 4;
+        private readonly Dictionary<PlayerPosition, IPlayer> players;
+        private readonly IShuffler shuffler;
+        private GameManager gameManager;
 
         public BridgeManager(IShuffler shuffler, IAuctionManager auctionManager)
         {
-            _shuffler = shuffler;
-            _auctionManager = auctionManager;
-            _players = new Dictionary<PlayerPosition, IPlayer>();
+            this.shuffler = shuffler;
+            this.auctionManager = auctionManager;
+            this.players = new Dictionary<PlayerPosition, IPlayer>();
         }
+
+        public bool TableFull => this.players.Count == 4;
 
         public Dictionary<PlayerPosition, Hand> CreateHands()
         {
-            var cards = _shuffler.ShuffleCards();
+            var cards = this.shuffler.ShuffleCards();
             var hands = new Dictionary<PlayerPosition, Hand>();
             var curentPostion = 0;
             var cardsToHand = new List<Card>();
@@ -46,23 +46,22 @@ namespace BKO.Domain.Models
 
         public void SitPlayer(IPlayer player, PlayerPosition position)
         {
-            if (_players.ContainsValue(player))
+            if (this.players.ContainsValue(player))
             {
                 throw new PlayerAlreadySatException();
             }
-            
-            if (_players.ContainsKey(position))
+
+            if (this.players.ContainsKey(position))
             {
-              throw  new PlaceAlreadyTakenException();
+                throw new PlaceAlreadyTakenException();
             }
 
-            _players.Add(position, player);
+            this.players.Add(position, player);
         }
 
         public void CreateGame()
         {
-            _gameManager = new GameManager(CreateHands(),_auctionManager.Trump);
+            this.gameManager = new GameManager(CreateHands(), this.auctionManager.Trump);
         }
-
     }
 }

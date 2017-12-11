@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BKO.Domain.Enums;
+﻿using BKO.Domain.Enums;
 using BKO.Domain.Interfaces;
 
 namespace BKO.Domain.Models
 {
     public class PlayerGuard : IPlayerGuard
     {
-        public PlayerPosition CurrentPlayer { private set; get; }
-        private PlayerPosition _startingPlayer;
+        private PlayerPosition startingPlayer;
 
-        public bool NewRound => _startingPlayer == CurrentPlayer;
-     
+        public bool NewRound => this.startingPlayer == CurrentPlayer;
+        public PlayerPosition CurrentPlayer { private set; get; }
+
         public void SetStartingPlayer(PlayerPosition player)
         {
             CurrentPlayer = player;
-            _startingPlayer = player;
+            this.startingPlayer = player;
         }
 
         public void FinishMove()
         {
-            CurrentPlayer = (PlayerPosition)(((int)CurrentPlayer + 1)%4);
+            CurrentPlayer = (PlayerPosition) (((int) CurrentPlayer + 1) % 4);
         }
     }
 }

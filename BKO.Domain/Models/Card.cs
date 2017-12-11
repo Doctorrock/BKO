@@ -1,10 +1,9 @@
-﻿
-namespace BKO.Domain.Models
+﻿namespace BKO.Domain.Models
 {
     public struct Card
     {
-        public CardColor Color;
-        public CardNumber Number;
+        public CardColor Color { get; }
+        public CardNumber Number { get; }
 
         public Card(CardColor color, CardNumber number)
         {
@@ -37,6 +36,5 @@ namespace BKO.Domain.Models
         Queen = 12,
         King = 13,
         Ace = 14
-
     }
 }

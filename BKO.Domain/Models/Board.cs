@@ -4,16 +4,15 @@ namespace BKO.Domain.Models
 {
     public class Board : IBoard
     {
+        private readonly IShuffler shuffler;
+
         private Board()
-        { }
-        private readonly IShuffler _shuffler;
+        {
+        }
 
         public Board(IShuffler shuffler)
         {
-            _shuffler = shuffler;
+            this.shuffler = shuffler;
         }
-
-        
-
     }
 }

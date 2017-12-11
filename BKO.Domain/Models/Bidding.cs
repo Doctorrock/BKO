@@ -10,6 +10,6 @@ namespace BKO.Domain.Models
 
         public int Bid { get; set; }
 
-        public int BiddingValue => (int)Color + Bid;
+        public int BiddingValue => (int) Color + Bid;
     }
 }
