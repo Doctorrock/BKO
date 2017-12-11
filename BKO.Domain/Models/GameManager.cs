@@ -8,18 +8,20 @@ namespace BKO.Domain.Models
 {
     public class GameManager
     {
-        private readonly Dictionary<PlayerPosition, Hand> hands;
         private readonly IPlayerGuard playerGuard;
-        private readonly List<Trick> tricks;
-        private readonly CardColor trump;
         private int curentTrickNumber;
+        private Dictionary<PlayerPosition, Hand> hands;
+        private List<Trick> tricks;
+        private CardColor trump;
 
         public GameManager(IPlayerGuard guard)
         {
             this.playerGuard = guard;
         }
 
-        public GameManager(Dictionary<PlayerPosition, Hand> hands, CardColor trump)
+        public Trick CurentTrick { private set; get; }
+
+        public void SetGame(Dictionary<PlayerPosition, Hand> hands, CardColor trump)
         {
             this.hands = hands;
             this.trump = trump;
@@ -33,8 +35,6 @@ namespace BKO.Domain.Models
             CurentTrick = this.tricks.First();
             this.curentTrickNumber = 0;
         }
-
-        public Trick CurentTrick { private set; get; }
 
         public void AddCardToTrick(PlayerPosition position, Card card)
         {
@@ -84,6 +84,7 @@ namespace BKO.Domain.Models
             return winner;
         }
 
+        // TODO this should be removed
         public bool CanPlayerAddCard(PlayerPosition position, Card card)
         {
             return this.trump == card.Color || this.hands[position].Cards.All(x => x.Color != this.trump);

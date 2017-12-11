@@ -61,7 +61,7 @@ namespace BKO.Domain.Models
 
         public void CreateGame()
         {
-            this.gameManager = new GameManager(CreateHands(), this.auctionManager.Trump);
+            //this.gameManager = new GameManager(CreateHands(), this.auctionManager.Trump);
         }
     }
 }

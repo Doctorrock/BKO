@@ -1,41 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BKO.Domain.Models;
+﻿using System.Collections.Generic;
 using BKO.Domain.Enums;
 using BKO.Domain.Interfaces;
+using BKO.Domain.Models;
 using Moq;
 using Xunit;
 
 namespace BKOXUnitTest
 {
-     public class GameManagerTest
+    public class GameManagerTest
     {
+        [Fact]
+        public void CalculateWinner_ClubsTrump()
+        {
+            var hands = new Dictionary<PlayerPosition, Hand>();
+            var gameManager = new GameManager();
+            gameManager.SetGame(hands, CardColor.Clubs);
+            var trickCards = new Dictionary<PlayerPosition, Card>
+            {
+                {PlayerPosition.East, new Card(CardColor.Clubs, CardNumber.Ace)},
+                {PlayerPosition.North, new Card(CardColor.Clubs, CardNumber.Two)},
+                {PlayerPosition.South, new Card(CardColor.Spades, CardNumber.Ace)},
+                {PlayerPosition.West, new Card(CardColor.Hearts, CardNumber.Ace)}
+            };
+            var trickMock = new Mock<ITrick>();
+            trickMock.SetupGet(x => x.TrickCards).Returns(trickCards);
+
+
+            var winner = gameManager.CalculateWinner(trickMock.Object);
+            var expectedWinner = PlayerPosition.East;
+            Assert.Equal(expectedWinner, winner);
+        }
 
         [Fact]
-        public void CanPlayerAddCard_PlayerHasCard_True()
+        public void CalculateWinner_NoTrump()
         {
-            var clubs = new List<Card>
-            {
-                new Card(CardColor.Clubs, CardNumber.Ace),
-                new Card(CardColor.Clubs, CardNumber.King),
-                new Card(CardColor.Clubs, CardNumber.Queen),
-                new Card(CardColor.Clubs, CardNumber.Jack),
-                new Card(CardColor.Clubs, CardNumber.Ten),
-                new Card(CardColor.Clubs, CardNumber.Nine),
-                new Card(CardColor.Clubs, CardNumber.Eight),
-                new Card(CardColor.Clubs, CardNumber.Seven),
-                new Card(CardColor.Clubs, CardNumber.Six),
-                new Card(CardColor.Clubs, CardNumber.Five),
-                new Card(CardColor.Clubs, CardNumber.Four),
-                new Card(CardColor.Clubs, CardNumber.Three),
-                new Card(CardColor.Clubs, CardNumber.Two),
-            };
             var hands = new Dictionary<PlayerPosition, Hand>();
-            hands.Add(PlayerPosition.East, new Hand(clubs));
-            var gameManager = new GameManager(hands,CardColor.Clubs);
+            var playerGuardMock = new Mock<IPlayerGuard>();
+            var gameManager = new GameManager(playerGuardMock.Object);
+            gameManager.SetGame(hands, CardColor.NoTrump);
+            var trickCards = new Dictionary<PlayerPosition, Card>
+            {
+                {PlayerPosition.East, new Card(CardColor.Clubs, CardNumber.Ace)},
+                {PlayerPosition.North, new Card(CardColor.Diamonds, CardNumber.Ace)},
+                {PlayerPosition.South, new Card(CardColor.Spades, CardNumber.Ace)},
+                {PlayerPosition.West, new Card(CardColor.Hearts, CardNumber.Ace)}
+            };
+            var trickMock = new Mock<ITrick>();
+            trickMock.SetupGet(x => x.TrickCards).Returns(trickCards);
 
-            Assert.True(gameManager.CanPlayerAddCard(PlayerPosition.East,new Card(CardColor.Clubs,CardNumber.Ace)));
+
+            var winner = gameManager.CalculateWinner(trickMock.Object);
+            var expectedWinner = PlayerPosition.South;
+            Assert.Equal(expectedWinner, winner);
         }
 
         [Fact]
@@ -55,11 +71,14 @@ namespace BKOXUnitTest
                 new Card(CardColor.Clubs, CardNumber.Five),
                 new Card(CardColor.Clubs, CardNumber.Four),
                 new Card(CardColor.Clubs, CardNumber.Three),
-                new Card(CardColor.Clubs, CardNumber.Two),
+                new Card(CardColor.Clubs, CardNumber.Two)
             };
-            var hands = new Dictionary<PlayerPosition, Hand>();
-            hands.Add(PlayerPosition.East, new Hand(clubs));
-            var gameManager = new GameManager(hands, CardColor.Diamonds);
+            var hands = new Dictionary<PlayerPosition, Hand>
+            {
+                {PlayerPosition.East, new Hand(clubs)}
+            };
+            var gameManager = new GameManager();
+            gameManager.SetGame(hands, CardColor.Diamonds);
 
             Assert.True(gameManager.CanPlayerAddCard(PlayerPosition.East, new Card(CardColor.Clubs, CardNumber.Ace)));
         }
@@ -81,56 +100,70 @@ namespace BKOXUnitTest
                 new Card(CardColor.Clubs, CardNumber.Five),
                 new Card(CardColor.Clubs, CardNumber.Four),
                 new Card(CardColor.Clubs, CardNumber.Three),
-                new Card(CardColor.Diamonds, CardNumber.Two),
+                new Card(CardColor.Diamonds, CardNumber.Two)
             };
 
-            var hands = new Dictionary<PlayerPosition, Hand>();
-            hands.Add(PlayerPosition.East, new Hand(clubs));
-            var gameManager = new GameManager(hands, CardColor.Diamonds);
+            var hands = new Dictionary<PlayerPosition, Hand>
+            {
+                {PlayerPosition.East, new Hand(clubs)}
+            };
+            var gameManager = new GameManager();
+            gameManager.SetGame(hands, CardColor.Diamonds);
 
             Assert.False(gameManager.CanPlayerAddCard(PlayerPosition.East, new Card(CardColor.Clubs, CardNumber.Ace)));
         }
 
         [Fact]
-        public void CalculateWinner_NoTrump()
+        public void CanPlayerAddCard_PlayerHasCard_True()
         {
-            var hands = new Dictionary<PlayerPosition, Hand>();
-            var gameManager = new GameManager(hands, CardColor.NoTrump);
-            var trickCards = new Dictionary<PlayerPosition, Card>()
+            var clubs = new List<Card>
             {
-                {PlayerPosition.East, new Card(CardColor.Clubs, CardNumber.Ace)},
-                {PlayerPosition.North, new Card(CardColor.Diamonds, CardNumber.Ace)},
-                {PlayerPosition.South, new Card(CardColor.Spades, CardNumber.Ace)},
-                {PlayerPosition.West, new Card(CardColor.Hearts, CardNumber.Ace)},
+                new Card(CardColor.Clubs, CardNumber.Ace)
             };
-            var trickMock = new Mock<ITrick>();
-            trickMock.SetupGet(x => x.TrickCards).Returns(trickCards);
+            var hands = new Dictionary<PlayerPosition, Hand>
+            {
+                {PlayerPosition.East, new Hand(clubs)}
+            };
+            var gameManager = new GameManager();
+            gameManager.SetGame(hands, CardColor.Clubs);
 
-
-            var winner = gameManager.CalculateWinner(trickMock.Object);
-            var expectedWinner = PlayerPosition.South;
-            Assert.Equal(expectedWinner, winner);
+            Assert.True(gameManager.CanPlayerAddCard(PlayerPosition.East, new Card(CardColor.Clubs, CardNumber.Ace))); 
         }
 
         [Fact]
-        public void CalculateWinner_ClubsTrump()
+        public void FourPlayersAddCards_True()
         {
-            var hands = new Dictionary<PlayerPosition, Hand>();
-            var gameManager = new GameManager(hands, CardColor.Clubs);
-            var trickCards = new Dictionary<PlayerPosition, Card>()
+            var clubs = new List<Card>
             {
-                {PlayerPosition.East, new Card(CardColor.Clubs, CardNumber.Ace)},
-                {PlayerPosition.North, new Card(CardColor.Clubs, CardNumber.Two)},
-                {PlayerPosition.South, new Card(CardColor.Spades, CardNumber.Ace)},
-                {PlayerPosition.West, new Card(CardColor.Hearts, CardNumber.Ace)},
+                new Card(CardColor.Clubs, CardNumber.Ace)
             };
-            var trickMock = new Mock<ITrick>();
-            trickMock.SetupGet(x => x.TrickCards).Returns(trickCards);
+            var diamonds = new List<Card>
+            {
+                new Card(CardColor.Diamonds, CardNumber.Ace)
+            };
+            var hearts = new List<Card>
+            {
+                new Card(CardColor.Hearts, CardNumber.Ace)
+            };
+            var spades = new List<Card>
+            {
+                new Card(CardColor.Spades, CardNumber.Ace)
+            };
+            var hands = new Dictionary<PlayerPosition, Hand>
+            {
+                {PlayerPosition.East, new Hand(clubs)},
+                {PlayerPosition.North, new Hand(hearts)},
+                {PlayerPosition.West, new Hand(diamonds)},
+                {PlayerPosition.South, new Hand(spades)}
+            };
 
+            var gameManager = new GameManager();
+            gameManager.SetGame(hands, CardColor.Clubs);
 
-            var winner = gameManager.CalculateWinner(trickMock.Object);
-            var expectedWinner = PlayerPosition.East;
-            Assert.Equal(expectedWinner, winner);
+            gameManager.AddCardToTrick(PlayerPosition.East, new Card(CardColor.Clubs, CardNumber.Ace));
+            gameManager.AddCardToTrick(PlayerPosition.North, new Card(CardColor.Hearts, CardNumber.Ace));
+            gameManager.AddCardToTrick(PlayerPosition.West, new Card(CardColor.Diamonds, CardNumber.Ace));
+            gameManager.AddCardToTrick(PlayerPosition.South, new Card(CardColor.Spades, CardNumber.Ace));
         }
     }
 }
