@@ -42,9 +42,8 @@ namespace BKOXUnitTest
             var eastPlayerMock = new Mock<IPlayer>();
 
             manager.SitPlayer(eastPlayerMock.Object, PlayerPosition.East);
-            var exception = Record.Exception(() => manager.SitPlayer(eastPlayerMock.Object, PlayerPosition.West));
-
-            Assert.IsType(typeof(PlayerAlreadySatException), exception);
+            Assert.Throws<PlayerAlreadySatException>(
+                () => manager.SitPlayer(eastPlayerMock.Object, PlayerPosition.West));
         }
 
         [Fact]
@@ -58,9 +57,9 @@ namespace BKOXUnitTest
             var westPlayerMock = new Mock<IPlayer>();
 
             manager.SitPlayer(eastPlayerMock.Object, PlayerPosition.East);
-            var exception = Record.Exception(() => manager.SitPlayer(westPlayerMock.Object, PlayerPosition.East));
 
-            Assert.IsType(typeof(PlaceAlreadyTakenException), exception);
+            Assert.Throws<PlaceAlreadyTakenException>(() =>
+                manager.SitPlayer(westPlayerMock.Object, PlayerPosition.East));
         }
 
         [Fact]

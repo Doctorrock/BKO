@@ -39,12 +39,17 @@ namespace BKO.Domain.Models
         public void AddCardToTrick(PlayerPosition position, Card card)
         {
             // TODO needs to be tested, something strange here
-            if (this.playerGuard.CurrentPlayer != position)
+            if (!this.playerGuard.IsCurentPlayer(position))
             {
                 throw new WrongPlayerException();
             }
 
             if (!this.hands[position].Cards.Contains(card))
+            {
+                throw new CardNotInHandException();
+            }
+
+            if (!CanPlayerAddCard(position, card))
             {
                 throw new CardNotInHandException();
             }

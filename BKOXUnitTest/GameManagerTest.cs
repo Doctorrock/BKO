@@ -2,6 +2,7 @@
 using BKO.Domain.Enums;
 using BKO.Domain.Interfaces;
 using BKO.Domain.Models;
+using BKO.Domain.Exceptions;
 using Moq;
 using Xunit;
 
@@ -13,7 +14,9 @@ namespace BKOXUnitTest
         public void CalculateWinner_ClubsTrump()
         {
             var hands = new Dictionary<PlayerPosition, Hand>();
-            var gameManager = new GameManager();
+            var playerGuardMock = new Mock<IPlayerGuard>();
+            playerGuardMock.Setup(x => x.IsCurentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
+            var gameManager = new GameManager(playerGuardMock.Object);
             gameManager.SetGame(hands, CardColor.Clubs);
             var trickCards = new Dictionary<PlayerPosition, Card>
             {
@@ -36,6 +39,7 @@ namespace BKOXUnitTest
         {
             var hands = new Dictionary<PlayerPosition, Hand>();
             var playerGuardMock = new Mock<IPlayerGuard>();
+            playerGuardMock.Setup(x => x.IsCurentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
             var gameManager = new GameManager(playerGuardMock.Object);
             gameManager.SetGame(hands, CardColor.NoTrump);
             var trickCards = new Dictionary<PlayerPosition, Card>
@@ -77,7 +81,9 @@ namespace BKOXUnitTest
             {
                 {PlayerPosition.East, new Hand(clubs)}
             };
-            var gameManager = new GameManager();
+            var playerGuardMock = new Mock<IPlayerGuard>();
+            playerGuardMock.Setup(x => x.IsCurentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
+            var gameManager = new GameManager(playerGuardMock.Object);
             gameManager.SetGame(hands, CardColor.Diamonds);
 
             Assert.True(gameManager.CanPlayerAddCard(PlayerPosition.East, new Card(CardColor.Clubs, CardNumber.Ace)));
@@ -107,7 +113,9 @@ namespace BKOXUnitTest
             {
                 {PlayerPosition.East, new Hand(clubs)}
             };
-            var gameManager = new GameManager();
+            var playerGuardMock = new Mock<IPlayerGuard>();
+            playerGuardMock.Setup(x => x.IsCurentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
+            var gameManager = new GameManager(playerGuardMock.Object);
             gameManager.SetGame(hands, CardColor.Diamonds);
 
             Assert.False(gameManager.CanPlayerAddCard(PlayerPosition.East, new Card(CardColor.Clubs, CardNumber.Ace)));
@@ -124,14 +132,16 @@ namespace BKOXUnitTest
             {
                 {PlayerPosition.East, new Hand(clubs)}
             };
-            var gameManager = new GameManager();
+            var playerGuardMock = new Mock<IPlayerGuard>();
+            playerGuardMock.Setup(x => x.IsCurentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
+            var gameManager = new GameManager(playerGuardMock.Object);
             gameManager.SetGame(hands, CardColor.Clubs);
 
             Assert.True(gameManager.CanPlayerAddCard(PlayerPosition.East, new Card(CardColor.Clubs, CardNumber.Ace))); 
         }
 
         [Fact]
-        public void FourPlayersAddCards_True()
+        public void FourPlayersAddCards_NoException()
         {
             var clubs = new List<Card>
             {
@@ -157,13 +167,55 @@ namespace BKOXUnitTest
                 {PlayerPosition.South, new Hand(spades)}
             };
 
-            var gameManager = new GameManager();
+            var playerGuardMock = new Mock<IPlayerGuard>();
+            playerGuardMock.Setup(x => x.IsCurentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
+            var gameManager = new GameManager(playerGuardMock.Object);
             gameManager.SetGame(hands, CardColor.Clubs);
 
             gameManager.AddCardToTrick(PlayerPosition.East, new Card(CardColor.Clubs, CardNumber.Ace));
             gameManager.AddCardToTrick(PlayerPosition.North, new Card(CardColor.Hearts, CardNumber.Ace));
             gameManager.AddCardToTrick(PlayerPosition.West, new Card(CardColor.Diamonds, CardNumber.Ace));
             gameManager.AddCardToTrick(PlayerPosition.South, new Card(CardColor.Spades, CardNumber.Ace));
+
+            Assert.Equal(PlayerPosition.East, gameManager.CurentTrick.Winner);
+        }
+
+        [Fact]
+        public void FourPlayersAddCards_WrongCardException()
+        {
+            var clubs = new List<Card>
+            {
+                new Card(CardColor.Clubs, CardNumber.Ace)
+            };
+            var diamonds = new List<Card>
+            {
+                new Card(CardColor.Diamonds, CardNumber.Ace)
+            };
+            var hearts = new List<Card>
+            {
+                new Card(CardColor.Hearts, CardNumber.Ace)
+            };
+            var spades = new List<Card>
+            {
+                new Card(CardColor.Spades, CardNumber.Ace)
+            };
+            var hands = new Dictionary<PlayerPosition, Hand>
+            {
+                {PlayerPosition.East, new Hand(clubs)},
+                {PlayerPosition.North, new Hand(hearts)},
+                {PlayerPosition.West, new Hand(diamonds)},
+                {PlayerPosition.South, new Hand(spades)}
+            };
+
+            var playerGuardMock = new Mock<IPlayerGuard>();
+            playerGuardMock.Setup(x => x.IsCurentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
+            var gameManager = new GameManager(playerGuardMock.Object);
+            gameManager.SetGame(hands, CardColor.Clubs);
+
+            gameManager.AddCardToTrick(PlayerPosition.East, new Card(CardColor.Clubs, CardNumber.Ace));
+            gameManager.AddCardToTrick(PlayerPosition.North, new Card(CardColor.Hearts, CardNumber.Ace));
+            gameManager.AddCardToTrick(PlayerPosition.West, new Card(CardColor.Diamonds, CardNumber.Ace));
+            Assert.Throws<CardNotInHandException>(() => gameManager.AddCardToTrick(PlayerPosition.South, new Card(CardColor.Diamonds, CardNumber.Ace)));
         }
     }
 }

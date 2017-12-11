@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace BKO.Domain.Exceptions
 {
     [Serializable]
-    internal class CardNotInHandException : Exception
+    public class CardNotInHandException : Exception
     {
         public CardNotInHandException()
         {
