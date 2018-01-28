@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using BKO.Domain.Enums;
 using BKO.Domain.Exceptions;
 using BKO.Domain.Interfaces;
@@ -9,15 +8,15 @@ namespace BKO.Domain.Models
 {
     public class GameManager : IGameManager
     {
-        private readonly IPlayerGuard playerGuard;
-        private int curentTrickNumber;
-        private Dictionary<PlayerPosition, Hand> hands;
-        private List<Trick> tricks;
-        private CardColor trump;
+        private readonly IPlayerGuard _playerGuard;
+        private int _currentTrickNumber;
+        private Dictionary<PlayerPosition, Hand> _hands;
+        private List<Trick> _tricks;
+        private CardColor _trump;
 
         public GameManager(IPlayerGuard guard)
         {
-            this.playerGuard = guard;
+            _playerGuard = guard;
         }
 
         public Trick CurrentTrick { private set; get; }
@@ -26,27 +25,28 @@ namespace BKO.Domain.Models
 
         public void SetGame(Dictionary<PlayerPosition, Hand> hands, CardColor trump)
         {
-            this.hands = hands;
-            this.trump = trump;
+            _hands = hands;
+            _trump = trump;
 
-            this.tricks = new List<Trick>();
+            _tricks = new List<Trick>();
 
             for (var i = 0; i < 12; i++)
             {
-                this.tricks.Add(new Trick(PlayerPosition.North));
+                _tricks.Add(new Trick(PlayerPosition.North));
             }
-            CurrentTrick = this.tricks.First();
-            this.curentTrickNumber = 0;
+
+            CurrentTrick = _tricks.First();
+            _currentTrickNumber = 0;
         }
 
         public void AddCardToTrick(PlayerPosition position, Card card)
         {
-            if (!this.playerGuard.IsCurentPlayer(position))
+            if (!_playerGuard.IsCurrentPlayer(position))
             {
                 throw new WrongPlayerException();
             }
 
-            if (!this.hands[position].Cards.Contains(card))
+            if (!_hands[position].Cards.Contains(card))
             {
                 throw new CardNotInHandException();
             }
@@ -56,21 +56,21 @@ namespace BKO.Domain.Models
                 throw new CardNotInHandException();
             }
 
-            if (this.trump == CardColor.NoTrump)
+            if (_trump == CardColor.NoTrump)
             {
-                this.trump = card.Color;
+                _trump = card.Color;
             }
 
             CurrentTrick.TrickCards.Add(position, card);
-            this.hands[position].Cards.Remove(card);
-            this.playerGuard.FinishMove();
+            _hands[position].Cards.Remove(card);
+            _playerGuard.FinishMove();
 
             if (CurrentTrick.Finished)
             {
                 PreviousTrickWinner = CalculateWinner(CurrentTrick);
-                this.playerGuard.SetStartingPlayer(CurrentTrick.Winner);
-                this.curentTrickNumber++;
-                CurrentTrick = this.tricks[this.curentTrickNumber];
+                _playerGuard.SetStartingPlayer(CurrentTrick.Winner);
+                _currentTrickNumber++;
+                CurrentTrick = _tricks[_currentTrickNumber];
             }
         }
 
@@ -79,13 +79,14 @@ namespace BKO.Domain.Models
             var winner = PlayerPosition.West;
             var winnersPoints = 0;
             var trumpValue = 100;
-            foreach (var player in trick.TrickCards)
+            foreach (KeyValuePair<PlayerPosition, Card> player in trick.TrickCards)
             {
                 var playersPoints = (int) player.Value.Number;
-                if (player.Value.Color == this.trump)
+                if (player.Value.Color == _trump)
                 {
                     playersPoints += trumpValue;
                 }
+
                 if (playersPoints > winnersPoints)
                 {
                     winner = player.Key;
@@ -99,7 +100,7 @@ namespace BKO.Domain.Models
         // TODO this should be removed
         public bool CanPlayerAddCard(PlayerPosition position, Card card)
         {
-            return this.trump == card.Color || this.hands[position].Cards.All(x => x.Color != this.trump);
+            return _trump == card.Color || _hands[position].Cards.All(x => x.Color != _trump);
         }
     }
 }

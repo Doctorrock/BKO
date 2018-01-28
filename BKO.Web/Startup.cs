@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BKO.Repository;
+using BKO.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,7 +58,8 @@ namespace BKO.Web
             });
 
             app.UseAuthentication();
-            DocumentDbRepository<BKO.Domain.Interfaces.IBoard>.Initialize();
+            DocumentDbRepository<Domain.Interfaces.IBoard>.Initialize();
+            DocumentDbRepository<User>.Initialize();
         }
     }
 }

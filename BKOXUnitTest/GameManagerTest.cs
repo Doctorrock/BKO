@@ -15,7 +15,7 @@ namespace BKOXUnitTest
         {
             var hands = new Dictionary<PlayerPosition, Hand>();
             var playerGuardMock = new Mock<IPlayerGuard>();
-            playerGuardMock.Setup(x => x.IsCurentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
+            playerGuardMock.Setup(x => x.IsCurrentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
             var gameManager = new GameManager(playerGuardMock.Object);
             gameManager.SetGame(hands, CardColor.Clubs);
             var trickCards = new Dictionary<PlayerPosition, Card>
@@ -39,7 +39,7 @@ namespace BKOXUnitTest
         {
             var hands = new Dictionary<PlayerPosition, Hand>();
             var playerGuardMock = new Mock<IPlayerGuard>();
-            playerGuardMock.Setup(x => x.IsCurentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
+            playerGuardMock.Setup(x => x.IsCurrentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
             var gameManager = new GameManager(playerGuardMock.Object);
             gameManager.SetGame(hands, CardColor.NoTrump);
             var trickCards = new Dictionary<PlayerPosition, Card>
@@ -82,7 +82,7 @@ namespace BKOXUnitTest
                 {PlayerPosition.East, new Hand(clubs)}
             };
             var playerGuardMock = new Mock<IPlayerGuard>();
-            playerGuardMock.Setup(x => x.IsCurentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
+            playerGuardMock.Setup(x => x.IsCurrentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
             var gameManager = new GameManager(playerGuardMock.Object);
             gameManager.SetGame(hands, CardColor.Diamonds);
 
@@ -114,7 +114,7 @@ namespace BKOXUnitTest
                 {PlayerPosition.East, new Hand(clubs)}
             };
             var playerGuardMock = new Mock<IPlayerGuard>();
-            playerGuardMock.Setup(x => x.IsCurentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
+            playerGuardMock.Setup(x => x.IsCurrentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
             var gameManager = new GameManager(playerGuardMock.Object);
             gameManager.SetGame(hands, CardColor.Diamonds);
 
@@ -133,7 +133,7 @@ namespace BKOXUnitTest
                 {PlayerPosition.East, new Hand(clubs)}
             };
             var playerGuardMock = new Mock<IPlayerGuard>();
-            playerGuardMock.Setup(x => x.IsCurentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
+            playerGuardMock.Setup(x => x.IsCurrentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
             var gameManager = new GameManager(playerGuardMock.Object);
             gameManager.SetGame(hands, CardColor.Clubs);
 
@@ -168,7 +168,7 @@ namespace BKOXUnitTest
             };
 
             var playerGuardMock = new Mock<IPlayerGuard>();
-            playerGuardMock.Setup(x => x.IsCurentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
+            playerGuardMock.Setup(x => x.IsCurrentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
             var gameManager = new GameManager(playerGuardMock.Object);
             gameManager.SetGame(hands, CardColor.Clubs);
 
@@ -177,7 +177,7 @@ namespace BKOXUnitTest
             gameManager.AddCardToTrick(PlayerPosition.West, new Card(CardColor.Diamonds, CardNumber.Ace));
             gameManager.AddCardToTrick(PlayerPosition.South, new Card(CardColor.Spades, CardNumber.Ace));
 
-            Assert.Equal(PlayerPosition.East, gameManager.PrevoiusTrickWinner);
+            Assert.Equal(PlayerPosition.East, gameManager.PreviousTrickWinner);
         }
 
         [Fact]
@@ -208,7 +208,7 @@ namespace BKOXUnitTest
             };
 
             var playerGuardMock = new Mock<IPlayerGuard>();
-            playerGuardMock.Setup(x => x.IsCurentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
+            playerGuardMock.Setup(x => x.IsCurrentPlayer(It.IsAny<PlayerPosition>())).Returns(true);
             var gameManager = new GameManager(playerGuardMock.Object);
             gameManager.SetGame(hands, CardColor.Clubs);
 

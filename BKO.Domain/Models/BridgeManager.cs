@@ -61,6 +61,7 @@ namespace BKO.Domain.Models
 
         public void CreateGame()
         {
+
             throw new NotImplementedException();
         }
     }
