@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using BKO.Domain.Enums;
 using BKO.Domain.Exceptions;
 using BKO.Domain.Interfaces;
 
 namespace BKO.Domain.Models
 {
-    public class GameManager
+    public class GameManager : IGameManager
     {
         private readonly IPlayerGuard playerGuard;
         private int curentTrickNumber;
@@ -20,6 +21,8 @@ namespace BKO.Domain.Models
         }
 
         public Trick CurentTrick { private set; get; }
+
+        public PlayerPosition PrevoiusTrickWinner { set; get; }
 
         public void SetGame(Dictionary<PlayerPosition, Hand> hands, CardColor trump)
         {
@@ -38,7 +41,6 @@ namespace BKO.Domain.Models
 
         public void AddCardToTrick(PlayerPosition position, Card card)
         {
-            // TODO needs to be tested, something strange here
             if (!this.playerGuard.IsCurentPlayer(position))
             {
                 throw new WrongPlayerException();
@@ -54,13 +56,18 @@ namespace BKO.Domain.Models
                 throw new CardNotInHandException();
             }
 
+            if (this.trump == CardColor.NoTrump)
+            {
+                this.trump = card.Color;
+            }
+
             CurentTrick.TrickCards.Add(position, card);
             this.hands[position].Cards.Remove(card);
             this.playerGuard.FinishMove();
 
             if (CurentTrick.AllCardsIn)
             {
-                CurentTrick.Winner = CalculateWinner(CurentTrick);
+                PrevoiusTrickWinner = CalculateWinner(CurentTrick);
                 this.playerGuard.SetStartingPlayer(CurentTrick.Winner);
                 this.curentTrickNumber++;
                 CurentTrick = this.tricks[this.curentTrickNumber];
@@ -74,7 +81,7 @@ namespace BKO.Domain.Models
             var trumpValue = 100;
             foreach (var player in trick.TrickCards)
             {
-                var playersPoints = (int) player.Value.Color + (int) player.Value.Number;
+                var playersPoints = (int) player.Value.Number;
                 if (player.Value.Color == this.trump)
                 {
                     playersPoints += trumpValue;

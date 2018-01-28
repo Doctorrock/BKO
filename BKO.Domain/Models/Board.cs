@@ -1,18 +1,21 @@
-﻿using BKO.Domain.Interfaces;
+﻿using System.Collections.Generic;
+using BKO.Domain.Enums;
+using BKO.Domain.Interfaces;
 
 namespace BKO.Domain.Models
 {
     public class Board : IBoard
     {
-        private readonly IShuffler shuffler;
+
+        private Dictionary<PlayerPosition, IHand> _hands;
+        private List<ITrick> _ticks;
 
         private Board()
         {
+            _hands = new Dictionary<PlayerPosition, IHand>(4);
+            _ticks = new List<ITrick>(13);
         }
 
-        public Board(IShuffler shuffler)
-        {
-            this.shuffler = shuffler;
-        }
+      
     }
 }

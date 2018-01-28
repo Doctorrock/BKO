@@ -44,9 +44,9 @@ namespace BKOXUnitTest
             gameManager.SetGame(hands, CardColor.NoTrump);
             var trickCards = new Dictionary<PlayerPosition, Card>
             {
+                {PlayerPosition.South, new Card(CardColor.Spades, CardNumber.Ace)},
                 {PlayerPosition.East, new Card(CardColor.Clubs, CardNumber.Ace)},
                 {PlayerPosition.North, new Card(CardColor.Diamonds, CardNumber.Ace)},
-                {PlayerPosition.South, new Card(CardColor.Spades, CardNumber.Ace)},
                 {PlayerPosition.West, new Card(CardColor.Hearts, CardNumber.Ace)}
             };
             var trickMock = new Mock<ITrick>();
@@ -177,7 +177,7 @@ namespace BKOXUnitTest
             gameManager.AddCardToTrick(PlayerPosition.West, new Card(CardColor.Diamonds, CardNumber.Ace));
             gameManager.AddCardToTrick(PlayerPosition.South, new Card(CardColor.Spades, CardNumber.Ace));
 
-            Assert.Equal(PlayerPosition.East, gameManager.CurentTrick.Winner);
+            Assert.Equal(PlayerPosition.East, gameManager.PrevoiusTrickWinner);
         }
 
         [Fact]

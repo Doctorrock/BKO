@@ -8,7 +8,7 @@ namespace BKO.Domain.Models
     {
         public Trick()
         {
-            TrickCards = new Dictionary<PlayerPosition, Card>();
+            TrickCards = new Dictionary<PlayerPosition, Card>(4);
         }
 
         public bool AllCardsIn => TrickCards.Count == 4;
