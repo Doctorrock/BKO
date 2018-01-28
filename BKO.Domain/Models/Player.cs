@@ -4,12 +4,12 @@ namespace BKO.Domain.Models
 {
     public class Player : IPlayer
     {
-        private Board board;
+        private Board _board;
 
 
         public Player(Hand hand, Board board, Place place)
         {
-            this.board = board;
+            _board = board;
             Hand = hand;
             Place = place;
         }

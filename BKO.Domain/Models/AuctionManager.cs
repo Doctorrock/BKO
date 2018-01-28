@@ -5,51 +5,53 @@ namespace BKO.Domain.Models
 {
     public class AuctionManager : IAuctionManager
     {
-        private int bidsAmount;
-        private Bidding currentBiding;
-        private int passAmount;
+        private int _bidsAmount;
+        private Bidding _currentBiding;
+        private int _passAmount;
 
-        public CardColor Trump { private set; get; }
+        public CardColor Trump { get; }
         public bool AuctionFinished => ResolveAuction();
-        public Bidding PlayingBidding => AuctionFinished ? this.currentBiding : null;
+        public Bidding PlayingBidding => AuctionFinished ? _currentBiding : null;
 
 
         public void SetPass(PlayerPosition position)
         {
-            this.passAmount++;
-            this.bidsAmount++;
+            _passAmount++;
+            _bidsAmount++;
         }
 
         public void SetBidding(PlayerPosition position, int bid, CardColor color)
         {
             var newBidding = new Bidding {Bid = bid, Color = color, Player = position};
-            if (this.currentBiding == null)
+            if (_currentBiding == null)
             {
-                this.currentBiding = newBidding;
-                this.bidsAmount++;
-                this.passAmount = 0;
+                _currentBiding = newBidding;
+                _bidsAmount++;
+                _passAmount = 0;
                 return;
             }
 
-            if (newBidding.BiddingValue > this.currentBiding.BiddingValue)
+            if (newBidding.BiddingValue > _currentBiding.BiddingValue)
             {
-                this.currentBiding = newBidding;
+                _currentBiding = newBidding;
             }
             else
             {
                 throw new BiddingException();
             }
-            this.bidsAmount++;
-            this.passAmount = 0;
+
+            _bidsAmount++;
+            _passAmount = 0;
         }
 
         private bool ResolveAuction()
         {
-            if (this.bidsAmount == 4)
+            if (_bidsAmount == 4)
             {
-                return this.passAmount == 4;
+                return _passAmount == 4;
             }
-            return this.passAmount == 3;
+
+            return _passAmount == 3;
         }
     }
 }

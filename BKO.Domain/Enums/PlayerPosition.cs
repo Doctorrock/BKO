@@ -6,5 +6,6 @@ namespace BKO.Domain.Enums
         East,
         South,
         West,
+        Null
     }
 }

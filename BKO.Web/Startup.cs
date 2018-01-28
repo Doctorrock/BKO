@@ -55,7 +55,8 @@ namespace BKO.Web
                     defaults: new { controller = "Home", action = "Index" });
             });
 
-            DocumentDbRepository<BKO.Domain.Models.Board>.Initialize();
+            app.UseAuthentication();
+            DocumentDbRepository<BKO.Domain.Interfaces.IBoard>.Initialize();
         }
     }
 }

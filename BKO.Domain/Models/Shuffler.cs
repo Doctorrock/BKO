@@ -11,10 +11,10 @@ namespace BKO.Domain.Models
             var allCardsAmount = 52;
             var cards = new List<Card>();
             var rand = new Random();
-            var deck = CreateDeck();
+            List<Card> deck = CreateDeck();
             while (cards.Count != allCardsAmount)
             {
-                var index = rand.Next(deck.Count);
+                int index = rand.Next(deck.Count);
                 cards.Add(deck[index]);
                 deck.RemoveAt(index);
             }
@@ -32,6 +32,7 @@ namespace BKO.Domain.Models
                     deck.Add(new Card((CardColor) color, (CardNumber) number));
                 }
             }
+
             return deck;
         }
     }

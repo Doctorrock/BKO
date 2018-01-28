@@ -20,9 +20,9 @@ namespace BKO.Domain.Models
             this.playerGuard = guard;
         }
 
-        public Trick CurentTrick { private set; get; }
+        public Trick CurrentTrick { private set; get; }
 
-        public PlayerPosition PrevoiusTrickWinner { set; get; }
+        public PlayerPosition PreviousTrickWinner { set; get; }
 
         public void SetGame(Dictionary<PlayerPosition, Hand> hands, CardColor trump)
         {
@@ -33,9 +33,9 @@ namespace BKO.Domain.Models
 
             for (var i = 0; i < 12; i++)
             {
-                this.tricks.Add(new Trick());
+                this.tricks.Add(new Trick(PlayerPosition.North));
             }
-            CurentTrick = this.tricks.First();
+            CurrentTrick = this.tricks.First();
             this.curentTrickNumber = 0;
         }
 
@@ -61,16 +61,16 @@ namespace BKO.Domain.Models
                 this.trump = card.Color;
             }
 
-            CurentTrick.TrickCards.Add(position, card);
+            CurrentTrick.TrickCards.Add(position, card);
             this.hands[position].Cards.Remove(card);
             this.playerGuard.FinishMove();
 
-            if (CurentTrick.AllCardsIn)
+            if (CurrentTrick.Finished)
             {
-                PrevoiusTrickWinner = CalculateWinner(CurentTrick);
-                this.playerGuard.SetStartingPlayer(CurentTrick.Winner);
+                PreviousTrickWinner = CalculateWinner(CurrentTrick);
+                this.playerGuard.SetStartingPlayer(CurrentTrick.Winner);
                 this.curentTrickNumber++;
-                CurentTrick = this.tricks[this.curentTrickNumber];
+                CurrentTrick = this.tricks[this.curentTrickNumber];
             }
         }
 

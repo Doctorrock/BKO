@@ -45,7 +45,7 @@ namespace BKO.Repository
                 .Where(predicate)
                 .AsDocumentQuery();
 
-            List<T> results = new List<T>();
+            var results = new List<T>();
             while (query.HasMoreResults)
             {
                 results.AddRange(await query.ExecuteNextAsync<T>());

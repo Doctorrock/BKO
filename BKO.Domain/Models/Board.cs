@@ -7,13 +7,20 @@ namespace BKO.Domain.Models
     public class Board : IBoard
     {
 
-        private Dictionary<PlayerPosition, IHand> _hands;
-        private List<ITrick> _ticks;
+        public string Id { get; set; }
 
-        private Board()
+        public Dictionary<PlayerPosition, IHand> Hands { get; }
+
+        public List<ITrick> Tricks { get; }
+
+        public int CurrentTrick { get; }
+
+        public Board(PlayerPosition starter)
         {
-            _hands = new Dictionary<PlayerPosition, IHand>(4);
-            _ticks = new List<ITrick>(13);
+            Hands = new Dictionary<PlayerPosition, IHand>(4);
+            Tricks = new List<ITrick>(13);
+            CurrentTrick = 0;
+            Tricks.Add(new Trick(starter));
         }
 
       

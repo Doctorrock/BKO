@@ -16,13 +16,13 @@ namespace BKOXUnitTest
 
             playerGuard.SetStartingPlayer(PlayerPosition.North);
             playerGuard.FinishMove();
-            Assert.True(playerGuard.IsCurentPlayer(PlayerPosition.East));
+            Assert.True(playerGuard.IsCurrentPlayer(PlayerPosition.East));
             playerGuard.FinishMove();
-            Assert.True(playerGuard.IsCurentPlayer(PlayerPosition.South));
+            Assert.True(playerGuard.IsCurrentPlayer(PlayerPosition.South));
             playerGuard.FinishMove();
-            Assert.True(playerGuard.IsCurentPlayer(PlayerPosition.West));
+            Assert.True(playerGuard.IsCurrentPlayer(PlayerPosition.West));
             playerGuard.FinishMove();
-            Assert.True(playerGuard.IsCurentPlayer(PlayerPosition.North));
+            Assert.True(playerGuard.IsCurrentPlayer(PlayerPosition.North));
         }
 
         [Fact]

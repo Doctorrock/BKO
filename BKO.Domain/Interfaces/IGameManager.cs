@@ -6,8 +6,8 @@ namespace BKO.Domain.Interfaces
 {
     public interface IGameManager
     {
-        Trick CurentTrick { get; }
-        PlayerPosition PrevoiusTrickWinner { set; get; }
+        Trick CurrentTrick { get; }
+        PlayerPosition PreviousTrickWinner { set; get; }
         void SetGame(Dictionary<PlayerPosition, Hand> hands, CardColor trump);
         void AddCardToTrick(PlayerPosition position, Card card);
         PlayerPosition CalculateWinner(ITrick trick);
