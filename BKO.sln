@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BKOXUnitTest", "BKOXUnitTest\BKOXUnitTest.csproj", "{6F06692B-E83D-4693-8A9A-113B0725FE57}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BKO.Domain", "BKO.Domain\BKO.Domain.csproj", "{DBA6387E-326A-4342-A32A-4220563C88CC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BKO.Web", "BKO.Web\BKO.Web.csproj", "{A8B48102-16B0-4898-91CD-AEC863385B4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BKO.Repository", "BKO.Repository\BKO.Repository.csproj", "{3BA30D87-7380-474E-9357-BDC6C8050572}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BKO.Repository", "BKO.Repository\BKO.Repository.csproj", "{3BA30D87-7380-474E-9357-BDC6C8050572}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BKO.Web", "BKO.Web\BKO.Web.csproj", "{89894EB2-196B-49F4-9A21-CECF73654652}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,14 @@ Global
 		{DBA6387E-326A-4342-A32A-4220563C88CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBA6387E-326A-4342-A32A-4220563C88CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBA6387E-326A-4342-A32A-4220563C88CC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8B48102-16B0-4898-91CD-AEC863385B4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8B48102-16B0-4898-91CD-AEC863385B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8B48102-16B0-4898-91CD-AEC863385B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8B48102-16B0-4898-91CD-AEC863385B4A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3BA30D87-7380-474E-9357-BDC6C8050572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3BA30D87-7380-474E-9357-BDC6C8050572}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BA30D87-7380-474E-9357-BDC6C8050572}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BA30D87-7380-474E-9357-BDC6C8050572}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89894EB2-196B-49F4-9A21-CECF73654652}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89894EB2-196B-49F4-9A21-CECF73654652}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89894EB2-196B-49F4-9A21-CECF73654652}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89894EB2-196B-49F4-9A21-CECF73654652}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
