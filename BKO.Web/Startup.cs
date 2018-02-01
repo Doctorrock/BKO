@@ -1,6 +1,10 @@
+using BKO.Web.Models;
+using BKO.Web.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,6 +23,25 @@ namespace BKO.WebA
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                    b => b.MigrationsAssembly("Migration1")));
+
+            services.AddTransient<IDocumentDbRepository<AppUser>, DocumentDbRepository<AppUser>>();
+            // add identity
+            var builder = services.AddIdentityCore<AppUser>(o =>
+            {
+                // configure identity options
+                o.Password.RequireDigit = false;
+                o.Password.RequireLowercase = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequiredLength = 6;
+                o.User.RequireUniqueEmail = false;
+            });
+            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+            builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

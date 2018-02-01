@@ -12,11 +12,13 @@
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
     <AssemblyName>BKO.Web</AssemblyName>
     <RootNamespace>BKO.Web</RootNamespace>
+    <UserSecretsId>15ffe892-f095-4479-8885-0b51f2e7e5a0</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.0.0-rc1-final" />
+    <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="1.7.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
   </ItemGroup>
 
