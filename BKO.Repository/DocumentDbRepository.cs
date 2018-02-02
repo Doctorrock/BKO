@@ -11,8 +11,8 @@ namespace BKO.Repository
 {
     public class DocumentDbRepository<T> where T : class
     {
-        private static readonly string Endpoint = "https://localhost:8081";
-        private static readonly string Key = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
+        private static readonly string Endpoint = "this should be in secrets!";
+        private static readonly string Key = "this should be in secrets!";
         private static readonly string DatabaseId = "BKODATABASE";
         private static readonly string CollectionId = "BRIDGECOLECTION";
         private static DocumentClient client;
