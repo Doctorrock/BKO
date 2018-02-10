@@ -17,11 +17,16 @@
                         <span class='glyphicon glyphicon-home'></span> Home
                     </a>
                 </li>
-                <li [routerLinkActive]='["link-active"]'>
-                    <a [routerLink]='["/counter"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-user'></span> Create account
-                    </a>
-                </li>
+              <li [routerLinkActive]='["link-active"]'>
+                <a [routerLink]='["/counter"]' (click)='collapse()'>
+                  <span class='glyphicon glyphicon-user'></span> Create account
+                </a>
+              </li>
+              <li [routerLinkActive]='["link-active"]'>
+                <a [routerLink]='["/hidden"]' (click)='collapse()'>
+                  <span class='glyphicon glyphicon-user'></span>  Only for loged users
+                </a>
+              </li>
             </ul>
         </div>
     </div>
