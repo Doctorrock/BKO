@@ -2,12 +2,12 @@
 
 namespace BKO.Domain.Models
 {
-    public class Player : IPlayer
+    public class GamePlayer : IPlayer
     {
         private Board _board;
 
 
-        public Player(Hand hand, Board board, Place place)
+        public GamePlayer(Hand hand, Board board, Place place)
         {
             _board = board;
             Hand = hand;

@@ -38,13 +38,23 @@ namespace BKO.Web.Controllers
                 Email = model.Email,
             };
 
-            var result = await _userManager.CreateAsync(userIdentity, model.Password);
+            IdentityResult result;
+            try
+            {
+                 result = await _userManager.CreateAsync(userIdentity, model.Password);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
 
             if (!result.Succeeded)
             {
                 return  new BadRequestResult();
             }
-            await _useRepository.CreateItemAsync(userIdentity);
+            //await _useRepository.CreateItemAsync(userIdentity);
 
             return new OkObjectResult("Account created");
         }

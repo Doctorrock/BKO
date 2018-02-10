@@ -23,13 +23,10 @@ namespace BKO.WebA
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly("AngularASPNETCore2WebApiAuth")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDbContext<UserDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
 
-            
 
             services.AddTransient<IDocumentDbRepository<AppUser>, DocumentDbRepository<AppUser>>();
             // add identity

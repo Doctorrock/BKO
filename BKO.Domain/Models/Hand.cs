@@ -11,6 +11,11 @@ namespace BKO.Domain.Models
 
         public IList<Card> Cards => _cards;
 
+        public Hand()
+        {
+
+        }
+
         public Hand(IEnumerable<Card> cards)
         {
             _cards = cards.ToList();

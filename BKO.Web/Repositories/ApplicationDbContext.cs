@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BKO.Web.Repositories
 {
-    public class ApplicationDbContext : IdentityDbContext<AppUser>
+    public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Player> Players { get; set; }
 
