@@ -8,6 +8,7 @@ using BKO.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Documents;
 using Microsoft.Rest;
 
 namespace BKO.Web.Controllers
@@ -16,45 +17,37 @@ namespace BKO.Web.Controllers
     [Route("api/Account")]
     public class AccountController : Controller
     {
-        private readonly IDocumentDbRepository<AppUser> _useRepository;
+        private readonly IDocumentDbRepository<Player> _useRepository;
         private readonly UserManager<AppUser> _userManager;
-        public AccountController(IDocumentDbRepository<AppUser> dbRepository, UserManager<AppUser> userManager)
+        public AccountController(IDocumentDbRepository<Player> dbRepository, UserManager<AppUser> userManager)
         {
             _useRepository = dbRepository;
             _userManager = userManager;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]RegistrationViewModel model)
+        public async Task<IActionResult> Post([FromBody] RegistrationViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 throw new ValidationException();
             }
 
-            var userIdentity =  new AppUser()
+            var userIdentity = new AppUser()
             {
                 UserName = model.Login,
                 Email = model.Email,
             };
 
-            IdentityResult result;
-            try
-            {
-                 result = await _userManager.CreateAsync(userIdentity, model.Password);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            
+
+            IdentityResult result = await _userManager.CreateAsync(userIdentity, model.Password);
 
             if (!result.Succeeded)
             {
-                return  new BadRequestResult();
+                return new BadRequestResult();
             }
-            //await _useRepository.CreateItemAsync(userIdentity);
+
+            await _useRepository.CreateItemAsync(new Player{IdentityId = userIdentity.Id});
 
             return new OkObjectResult("Account created");
         }

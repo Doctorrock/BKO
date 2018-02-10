@@ -28,6 +28,9 @@ namespace BKO.Web.Repositories
             _databaseId = _configuration.GetConnectionString("databaseId");
             _endpoint = _configuration.GetConnectionString("cosmosEndpoint");
             _key = _configuration.GetConnectionString("cosmosKey");
+            _client = new DocumentClient(new Uri(_endpoint), _key);
+            CreateDatabaseIfNotExistsAsync().Wait();
+            CreateCollectionIfNotExistsAsync().Wait();
         }
 
         public async Task<T> GetItemAsync(string id)
