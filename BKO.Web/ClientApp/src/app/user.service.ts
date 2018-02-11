@@ -14,8 +14,8 @@ export class UserService {
 
     return this.http
       .post(
-      this.baseUrl + '/auth/login',
-        JSON.stringify({ userName, password })
+      this.baseUrl + 'api/login',
+        {userName,password }
     ).subscribe(res => {
       localStorage.setItem('auth_token', res["auth_token"]);
         this.loggedIn = true;
