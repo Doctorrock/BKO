@@ -8,9 +8,9 @@ import { AppComponent } from "./app.component";
 import { NavMenuComponent } from "./nav-menu/nav-menu.component";
 import { HomeComponent } from "./home/home.component";
 import { CounterComponent } from "./counter/counter.component";
-import { HiddenComponent } from "./hidden/hidden.component";
 import { LoginFormComponent } from "./account/login-form/login-form.component";
 import { UserService } from './user.service';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
@@ -18,17 +18,17 @@ import { UserService } from './user.service';
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    HiddenComponent,
     LoginFormComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
     HttpClientModule,
     FormsModule,
+    DashboardModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent, pathMatch: "full" },
+      { path: "home", component: HomeComponent, pathMatch: "full" },
       { path: "counter", component: CounterComponent },
-      { path: "hidden", component: HiddenComponent },
       { path: "login", component: LoginFormComponent },
     ])
   ],

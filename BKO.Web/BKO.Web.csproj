@@ -37,11 +37,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\base.service.ts" />
+    <None Remove="ClientApp\src\app\dashboard\dashboard.routing.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BKO.Domain\BKO.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\base.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\dashboard\dashboard.routing.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

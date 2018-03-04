@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BKO.WebA.Controllers
 {
-    [Authorize(Policy = "ApiUser")]
+    //[Authorize(Policy = "ApiUser")]
     [Route("api/SampleData")]
     public class SampleDataController : Controller
     {

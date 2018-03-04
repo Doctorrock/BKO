@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using BKO.Web.Auth;
 using BKO.Web.Helpers;
 using BKO.Web.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -30,21 +26,21 @@ namespace BKO.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CredentialsViewModel credentials)
+        public string Post([FromBody]CredentialsViewModel credentials)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                //return BadRequest(ModelState);
             }
 
-            var identity = await GetClaimsIdentity(credentials.UserName, credentials.Password);
+            ClaimsIdentity identity = GetClaimsIdentity(credentials.UserName, credentials.Password).Result;
             if (identity == null)
             {
-                return BadRequest();
+                //return BadRequest();
             }
 
-            var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
-            return new OkObjectResult(jwt);
+            string jwt = Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented }).Result;
+            return jwt;
         }
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
@@ -52,8 +48,8 @@ namespace BKO.Web.Controllers
             if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
                 return await Task.FromResult<ClaimsIdentity>(null);
 
-            // get the user to verifty
-            var userToVerify = await _userManager.FindByNameAsync(userName);
+            // get the user to verify
+            AppUser userToVerify = await _userManager.FindByNameAsync(userName);
 
             if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
 
