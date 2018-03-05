@@ -30,6 +30,7 @@ export class UserService extends BaseService {
       this.baseUrl + 'api/login',
         {userName,password }
     )
+    //TODO: .map(r => JSON.parse(r, this.reviver)) maybe?
       .map(res => {
         console.log(res);
         localStorage.setItem('auth_token', res);
