@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BKO.WebA.Controllers
+namespace BKO.Web.Controllers
 {
-    //[Authorize(Policy = "ApiUser")]
+    [Authorize(Policy = "ApiUser")]
     [Route("api/SampleData")]
     public class SampleDataController : Controller
     {

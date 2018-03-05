@@ -14,6 +14,7 @@ export class UserService extends BaseService {
   authNavStatus$ = this._authNavStatusSource.asObservable();
 
   private loggedIn = false;
+  private resp : Response;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
     super();
@@ -32,8 +33,7 @@ export class UserService extends BaseService {
     )
     //TODO: .map(r => JSON.parse(r, this.reviver)) maybe?
       .map(res => {
-        console.log(res);
-        localStorage.setItem('auth_token', res);
+        localStorage.setItem('auth_token', JSON.parse(res).auth_token);
         this.loggedIn = true;
         this._authNavStatusSource.next(true);
         return true;

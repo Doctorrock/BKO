@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using BKO.Web.Models;
 using Microsoft.Extensions.Options;
+using BKO.Web.Models;
 
 namespace BKO.Web.Auth
 {

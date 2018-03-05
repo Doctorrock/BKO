@@ -6,23 +6,26 @@ using BKO.Web.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BKO.Web
 {
     public class Startup
     {
-        private readonly SymmetricSecurityKey _signingKey;
+        private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"; // todo: get this from somewhere secure
+        private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["JWTSecretKey"]));
+            //_signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["JWTSecretKey"]));
         }
 
         public IConfiguration Configuration { get; }
@@ -34,6 +37,10 @@ namespace BKO.Web
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
+
+            services.AddSingleton<IJwtFactory, JwtFactory>();
+
+            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             // add identity
             var builder = services.AddIdentityCore<AppUser>(o =>
@@ -101,7 +108,6 @@ namespace BKO.Web
             });
 
             services.AddTransient<IDocumentDbRepository<Player>, DocumentDbRepository<Player>>();
-            services.AddTransient<IJwtFactory, JwtFactory>();
 
         }
 
@@ -119,6 +125,7 @@ namespace BKO.Web
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
