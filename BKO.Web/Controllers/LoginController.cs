@@ -26,21 +26,21 @@ namespace BKO.Web.Controllers
         }
 
         [HttpPost]
-        public string Post([FromBody]CredentialsViewModel credentials)
+        public async Task<IActionResult> Post([FromBody]CredentialsViewModel credentials)
         {
             if (!ModelState.IsValid)
             {
-                //return BadRequest(ModelState);
+                return BadRequest(ModelState);
             }
 
-            ClaimsIdentity identity = GetClaimsIdentity(credentials.UserName, credentials.Password).Result;
+            ClaimsIdentity identity = await GetClaimsIdentity(credentials.UserName, credentials.Password);
             if (identity == null)
             {
-                //return BadRequest();
+                return BadRequest();
             }
 
-            string jwt = Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented }).Result;
-            return jwt;
+            string jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
+            return new OkObjectResult(jwt); ;
         }
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
